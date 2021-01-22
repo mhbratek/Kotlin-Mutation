@@ -1,0 +1,46 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.4.10'
+    id 'info.solidsoft.pitest' version '1.5.1'
+}
+
+apply plugin: "info.solidsoft.pitest"
+
+group = 'codingflower.com'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+
+
+compileKotlin {
+    kotlinOptions.jvmTarget = '11'
+}
+
+compileTestKotlin {
+    kotlinOptions.jvmTarget = '11'
+}
+
+dependencies {
+    testImplementation 'io.kotest:kotest-runner-junit5:4.3.2'
+    testImplementation 'io.kotest:kotest-assertions-core:4.3.2'
+    testImplementation 'io.kotest:kotest-property:4.3.2'
+    testImplementation 'io.kotest:kotest-plugins-pitest:4.3.2'
+    testCompile group: 'io.mockk', name: 'mockk', version: '1.10.5'
+
+//    compile group: 'info.solidsoft.gradle.pitest', name: 'gradle-pitest-plugin', version: '1.5.2'
+
+}
+
+test {
+    useJUnitPlatform()
+}
+
+pitest {
+    testPlugin = "Kotest"
+    targetClasses = ['com.codingflower.*']  //by default "${project.group}.*"
+//    threads = 4
+//    outputFormats = ['XML', 'HTML']
+//    timestampedReports = false
+}
